@@ -1,7 +1,7 @@
 package fr.homnomnom;
 
 import java.io.File;
-import java.util.Scanner;
+import java.util.*;
 import java.time.Instant;
 import java.time.Duration;
 
@@ -15,14 +15,14 @@ public class Benchmark {
      *
      * @return time of the run
      */
-    private static Duration performSingleRun(String html, ParserBenchmarkFactory.Parser parserType) {
+    private static RunResult performSingleRun(String html, ParserBenchmarkFactory.Parser parserType) {
         var parser = ParserBenchmarkFactory.build(parserType);
 
         var t1 = Instant.now();
         //TODO: launch run
         var t2 = Instant.now();
 
-        return Duration.between(t1, t2);
+        return new RunResult(Duration.between(t1, t2));
     }
 
     /**
@@ -59,15 +59,14 @@ public class Benchmark {
      *
      * @return result of the runs (CSV-formatted)
      */
-    private static String performRunsOnFile(String html, int nbIndividualRuns) {
-        String result = "";
+    private static List<RunResult> performRunsOnFile(String html, int nbIndividualRuns) {
+        var result = new LinkedList<RunResult>();
         for(var parserType : ParserBenchmarkFactory.Parser.values()) {
             System.out.println("-> " + parserType.toString());
             for(int i = 0; i < nbIndividualRuns; ++i) {
-                Duration time = performSingleRun(html, parserType);
-                logRun(i+1, nbIndividualRuns, time);
-
-                //TODO: create CSV
+                RunResult run = performSingleRun(html, parserType);
+                logRun(i+1, nbIndividualRuns, run.getDuration());
+                result.add(run);
             }
         }
 
@@ -97,17 +96,20 @@ public class Benchmark {
 
         File[] files = dir.listFiles();
 
+        var results = new LinkedList<RunResult>();
         for(File file : files) {
             if(!file.isFile()) continue;
             System.out.println("Benchmark on file \"" + file.getName() + "\"");
 
             try {
                 String html = loadFile(file);
-                String result = performRunsOnFile(html, 10);
+                results.addAll(performRunsOnFile(html, 10));
             } catch(java.io.FileNotFoundException e) {
                 System.err.println(e);
                 System.exit(-1);
             }
         }
+
+        //TODO: write CSV
     }
 }
