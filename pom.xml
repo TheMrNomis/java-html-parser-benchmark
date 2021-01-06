@@ -74,7 +74,7 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>1.4.0</version>
             <configuration>
-                <mainClass>fr.homnomnom.App</mainClass>
+                <mainClass>fr.homnomnom.Benchmark</mainClass>
             </configuration>
         </plugin>
       </plugins>

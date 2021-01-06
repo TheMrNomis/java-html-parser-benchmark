@@ -4,7 +4,7 @@ package fr.homnomnom;
  * Hello world!
  *
  */
-public class App
+public class Benchmark
 {
     public static void main( String[] args )
     {
