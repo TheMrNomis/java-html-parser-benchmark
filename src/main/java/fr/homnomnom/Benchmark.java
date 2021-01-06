@@ -19,7 +19,7 @@ public class Benchmark {
         var parser = ParserBenchmarkFactory.build(parserType);
 
         var t1 = Instant.now();
-        //TODO: launch run
+        parser.parse(html);
         var t2 = Instant.now();
 
         return new RunResult(Duration.between(t1, t2));
