@@ -1,4 +1,4 @@
-package com.homnomnom.fr;
+package fr.homnomnom;
 
 /**
  * Hello world!
