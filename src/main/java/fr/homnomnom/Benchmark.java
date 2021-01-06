@@ -10,7 +10,7 @@ public class Benchmark {
      *
      * @return result of the run (CSV-formatted)
      */
-    public static String performSingleRun(String html, ParserBenchmarkFactory.Parser parserType) {
+    private static String performSingleRun(String html, ParserBenchmarkFactory.Parser parserType) {
         var parser = ParserBenchmarkFactory.build(parserType);
 
         //TODO: parse html
@@ -30,7 +30,7 @@ public class Benchmark {
      *
      * @return result of the runs (CSV-formatted)
      */
-    public static String performRunsOnURL(String url, int nbIndividualRuns) {
+    private static String performRunsOnURL(String url, int nbIndividualRuns) {
         //FIXME: get html from URL
         String html = "";
 
