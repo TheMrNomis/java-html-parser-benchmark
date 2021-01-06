@@ -2,6 +2,8 @@ package fr.homnomnom;
 
 import java.io.File;
 import java.util.Scanner;
+import java.time.Instant;
+import java.time.Duration;
 
 public class Benchmark {
 
@@ -11,17 +13,16 @@ public class Benchmark {
      * @param html: HTML to parse
      * @param parserType: type of parser to use (actual parser will be built)
      *
-     * @return result of the run (CSV-formatted)
+     * @return time of the run
      */
-    private static String performSingleRun(String html, ParserBenchmarkFactory.Parser parserType) {
+    private static Duration performSingleRun(String html, ParserBenchmarkFactory.Parser parserType) {
         var parser = ParserBenchmarkFactory.build(parserType);
 
-        //TODO: parse html
-        //TODO: log time
-        //TODO: create CSV result
+        var t1 = Instant.now();
+        //TODO: launch run
+        var t2 = Instant.now();
 
-        //FIXME
-        return "";
+        return Duration.between(t1, t2);
     }
 
     /**
@@ -37,8 +38,9 @@ public class Benchmark {
         String result = "";
         for(var parserType : ParserBenchmarkFactory.Parser.values()) {
             for(int i = 0; i < nbIndividualRuns; ++i) {
-                String resultLine = performSingleRun(html, parserType);
-                //TODO: add line to result
+                Duration time = performSingleRun(html, parserType);
+
+                //TODO: create CSV
             }
         }
 
