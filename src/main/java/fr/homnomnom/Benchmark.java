@@ -26,6 +26,31 @@ public class Benchmark {
     }
 
     /**
+     * @brief Logs (on console) the result of a given run
+     *
+     * @param id: number of the run
+     * @param nb: total number of runs
+     * @param time: result time on run
+     */
+    private static void logRun(int id, int nb, Duration time) {
+        String id_str = Integer.valueOf(id).toString();
+        String nb_str = Integer.valueOf(nb).toString();
+
+        var str = new StringBuffer();
+        str.append(" - ");
+        for(int i = id_str.length(); i < nb_str.length(); ++i)
+            str.append(" ");
+        str.append(id_str);
+        str.append("/");
+        str.append(nb_str);
+        str.append(": ");
+        str.append(time.toMillis());
+        str.append("ms");
+
+        System.out.println(str.toString());
+    }
+
+    /**
      * @brief Performs all the runs on a given HTML file.
      * Each parser is run multiple times.
      *
@@ -37,8 +62,10 @@ public class Benchmark {
     private static String performRunsOnFile(String html, int nbIndividualRuns) {
         String result = "";
         for(var parserType : ParserBenchmarkFactory.Parser.values()) {
+            System.out.println("-> " + parserType.toString());
             for(int i = 0; i < nbIndividualRuns; ++i) {
                 Duration time = performSingleRun(html, parserType);
+                logRun(i+1, nbIndividualRuns, time);
 
                 //TODO: create CSV
             }
